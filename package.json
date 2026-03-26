@@ -1,0 +1,11 @@
+{
+  "name": "dashlogix",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -n api,ui -c blue,magenta \"npm run dev --prefix dashlogix-backend\" \"npm run dev --prefix dashlogix-frontend\"",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

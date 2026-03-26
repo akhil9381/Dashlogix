@@ -1,13 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import axios from "axios";
-import SearchBar from "./components/SearchBar";
+import LogFeedIntro from "./components/LogFeedIntro";
 import FilterButtons from "./components/FilterButtons";
 import StatsCards from "./components/StatsCards";
 import LogsTable from "./components/LogsTable";
-import SearchHistory from "./components/SearchHistory";
+import SyncStatus from "./components/SyncStatus";
+import RealtimeMonitor from "./components/RealtimeMonitor";
+import { API_BASE } from "./apiConfig";
 import "./App.css";
 
-const BACKEND_URL = "http://localhost:5000";
+function formatDashboardError(err) {
+  if (!err.response) {
+    return [
+      "Could not reach the DashLogix API.",
+      "From the project root run npm run dev, open http://localhost:3000 (Vite proxies /api to the backend on port 5001).",
+      "If you use a production build, set VITE_API_URL to your API origin when running vite build.",
+    ].join(" ");
+  }
+  const { status, data } = err.response;
+  if (status === 503 && data?.hint) {
+    return `${data.error || "Database unavailable"}. ${data.hint}`;
+  }
+  if (typeof data?.error === "string") return data.error;
+  if (data?.details) return String(data.details);
+  return `Request failed (${status}).`;
+}
 
 export default function App() {
   const [logs, setLogs] = useState([]);
@@ -15,72 +32,51 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [filter, setFilter] = useState("ALL");
   const [error, setError] = useState(null);
+  const [realtimeOpen, setRealtimeOpen] = useState(false);
 
-  // 🔥 Fetch stored logs on component mount
+  const refreshData = useCallback(async () => {
+    setLoading(true);
+    setError(null);
+    try {
+      const [logsRes, statsRes] = await Promise.all([
+        axios.get(`${API_BASE}/stored-logs`),
+        axios.get(`${API_BASE}/stats`),
+      ]);
+      setLogs(logsRes.data || []);
+      setStats(statsRes.data || null);
+    } catch (err) {
+      console.error("Error loading dashboard:", err);
+      setError(formatDashboardError(err));
+    } finally {
+      setLoading(false);
+    }
+  }, [API_BASE]);
+
   useEffect(() => {
-    fetchStoredLogs();
-    fetchStats();
-  }, []);
+    refreshData();
+  }, [refreshData]);
 
-  // 🔥 Fetch stored logs from database
-  const fetchStoredLogs = async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const response = await axios.get(`${BACKEND_URL}/stored-logs`);
-      setLogs(response.data || []);
-      console.log("✅ Fetched stored logs:", response.data.length);
-    } catch (err) {
-      console.error("Error fetching stored logs:", err);
-      setError("Failed to load stored logs. Make sure backend is running.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  useEffect(() => {
+    // Refresh every 2 seconds for real-time updates
+    const id = setInterval(() => {
+      axios
+        .get(`${API_BASE}/stored-logs`)
+        .then((r) => setLogs(r.data || []))
+        .catch(() => {});
+      axios
+        .get(`${API_BASE}/stats`)
+        .then((r) => setStats(r.data || null))
+        .catch(() => {});
+    }, 2_000);
+    return () => clearInterval(id);
+  }, [API_BASE]);
 
-  // 🔥 Fetch stats
-  const fetchStats = async () => {
-    try {
-      const response = await axios.get(`${BACKEND_URL}/stats`);
-      setStats(response.data);
-      console.log("✅ Fetched stats:", response.data);
-    } catch (err) {
-      console.error("Error fetching stats:", err);
-    }
-  };
-
-  // 🔥 Handle search
-  const handleSearch = async (query) => {
-    setLoading(true);
-    setError(null);
-    setFilter("ALL");
-
-    try {
-      const response = await axios.get(`${BACKEND_URL}/logs`, {
-        params: { q: query },
-      });
-      setLogs(response.data || []);
-      console.log("✅ Search completed. Found:", response.data.length, "logs");
-      await fetchStats();
-      await fetchStoredLogs();
-    } catch (err) {
-      console.error("Error searching:", err);
-      setError(
-        err.response?.data?.details ||
-          "Search failed. Check backend connection and Splunk credentials."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  // 🔥 Handle clear logs
   const handleClearLogs = async () => {
     if (window.confirm("Are you sure you want to clear all stored logs?")) {
       try {
-        await axios.delete(`${BACKEND_URL}/logs`);
+        await axios.delete(`${API_BASE}/logs`);
         setLogs([]);
-        await fetchStats();
+        await refreshData();
         console.log("✅ Logs cleared");
       } catch (err) {
         console.error("Error clearing logs:", err);
@@ -89,27 +85,25 @@ export default function App() {
     }
   };
 
-  // 🔥 Handle history selection
-  const handleSelectQuery = (query) => {
-    handleSearch(query);
-  };
-
   return (
     <div className="app">
       <header className="app-header">
-        <h1>📊 DashLogix - Log Monitoring & Analytics</h1>
-        <p>Real-time Splunk log monitoring with MongoDB persistence</p>
+        <h1>DashLogix</h1>
+        <p>
+          Log monitoring without writing queries — Splunk collects and
+          processes events in the background; you just explore what was saved.
+        </p>
       </header>
 
       {error && <div className="error-banner">{error}</div>}
 
       <div className="app-container">
         <aside className="sidebar">
-          <SearchHistory onSelectQuery={handleSelectQuery} loading={loading} />
+          <SyncStatus onSynced={refreshData} loading={loading} />
         </aside>
 
         <main className="main-content">
-          <SearchBar onSearch={handleSearch} loading={loading} />
+          <LogFeedIntro />
 
           <StatsCards stats={stats} loading={loading} />
 
@@ -120,13 +114,24 @@ export default function App() {
               onClick={handleClearLogs}
               disabled={loading || logs.length === 0}
             >
-              🗑️ Clear Logs
+              Clear stored logs
+            </button>
+            <button
+              className="realtime-button"
+              onClick={() => setRealtimeOpen(true)}
+            >
+              🔴 Real-Time Monitoring
             </button>
           </div>
 
           <LogsTable logs={logs} filter={filter} loading={loading} />
         </main>
       </div>
+
+      <RealtimeMonitor
+        isOpen={realtimeOpen}
+        onClose={() => setRealtimeOpen(false)}
+      />
     </div>
   );
 }

@@ -78,60 +78,111 @@ body {
   gap: 1.5rem;
 }
 
-/* 🎨 SEARCH BAR */
-.search-bar {
+/* Log feed intro (no SPL in the UI) */
+.log-feed-intro {
   background: #1a1f2e;
   padding: 1.5rem;
   border-radius: 8px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-left: 4px solid #1f5aa5;
 }
 
-.search-bar form {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.search-input {
-  flex: 1;
-  padding: 0.75rem 1rem;
-  border: 2px solid #2d3748;
-  border-radius: 6px;
-  background: #0f1419;
+.log-feed-intro h2 {
+  font-size: 1.15rem;
+  margin-bottom: 0.5rem;
   color: #e3e8ef;
-  font-size: 1rem;
-  transition: all 0.3s ease;
 }
 
-.search-input:focus {
-  outline: none;
-  border-color: #1f5aa5;
-  box-shadow: 0 0 8px rgba(31, 90, 165, 0.3);
+.log-feed-intro p {
+  font-size: 0.9rem;
+  color: #a8b0bd;
+  line-height: 1.5;
 }
 
-.search-input:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
+/* Sidebar: automatic collection status */
+.sync-status {
+  background: #1a1f2e;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-left: 4px solid #1f5aa5;
 }
 
-.search-button {
-  padding: 0.75rem 2rem;
+.sync-status h3 {
+  font-size: 0.95rem;
+  margin-bottom: 0.75rem;
+  color: #e3e8ef;
+}
+
+.sync-status-intro {
+  font-size: 0.82rem;
+  color: #a8b0bd;
+  line-height: 1.45;
+  margin-bottom: 1rem;
+}
+
+.sync-now-button {
+  width: 100%;
+  padding: 0.65rem 1rem;
   background: linear-gradient(135deg, #1f5aa5 0%, #0d47a1 100%);
   color: white;
   border: none;
   border-radius: 6px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s ease;
+  margin-bottom: 1rem;
+  transition: all 0.2s ease;
 }
 
-.search-button:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 16px rgba(31, 90, 165, 0.4);
+.sync-now-button:hover:not(:disabled) {
+  box-shadow: 0 4px 12px rgba(31, 90, 165, 0.35);
 }
 
-.search-button:disabled {
-  opacity: 0.6;
+.sync-now-button:disabled {
+  opacity: 0.55;
   cursor: not-allowed;
+}
+
+.sync-status-error {
+  font-size: 0.8rem;
+  color: #ff9b9b;
+  margin-bottom: 0.75rem;
+}
+
+.sync-status-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.sync-status-details dt {
+  font-size: 0.7rem;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #7d8694;
+  margin-bottom: 0.2rem;
+}
+
+.sync-status-details dd {
+  font-size: 0.82rem;
+  color: #e3e8ef;
+  line-height: 1.4;
+}
+
+.sync-status-details code {
+  font-size: 0.78rem;
+  background: #0f1419;
+  padding: 0.1rem 0.35rem;
+  border-radius: 4px;
+  color: #7ec8ff;
+}
+
+.sync-splunk-error dt {
+  color: #ff6b6b;
+}
+
+.sync-splunk-error dd {
+  color: #ffb4b4;
+  font-size: 0.78rem;
 }
 
 /* 🎨 STATS CARDS */
@@ -229,63 +280,25 @@ body {
   cursor: not-allowed;
 }
 
-/* 🎨 SEARCH HISTORY */
-.search-history {
-  background: #1a1f2e;
-  padding: 1.5rem;
-  border-radius: 8px;
-  border-left: 4px solid #1f5aa5;
-}
-
-.search-history h3 {
-  font-size: 0.95rem;
-  margin-bottom: 1rem;
-  color: #e3e8ef;
-}
-
-.history-list {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.history-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.75rem;
-  background: #0f1419;
-  border: 1px solid #2d3748;
+.realtime-button {
+  padding: 0.5rem 1.5rem;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
   border-radius: 6px;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-align: left;
+  font-weight: 500;
 }
 
-.history-item:hover:not(:disabled) {
-  border-color: #1f5aa5;
-  background: #151a24;
-  transform: translateX(4px);
+.realtime-button:hover {
+  background: linear-gradient(135deg, #5568d3 0%, #6a3b8a 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
 }
 
-.history-item:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.history-query {
-  flex: 1;
-  font-size: 0.85rem;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  color: #e3e8ef;
-}
-
-.history-time {
-  font-size: 0.75rem;
-  color: #666;
-  margin-left: 0.5rem;
+.realtime-button:active {
+  transform: translateY(0);
 }
 
 /* 🎨 LOGS TABLE */
