@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { API_BASE } from "../apiConfig";
 import "./RealtimeMonitor.css";
 
-export default function RealtimeMonitor({ isOpen, onClose }) {
+export default function RealtimeMonitor({ isOpen = true, onClose, embedded = false }) {
   const [isConnected, setIsConnected] = useState(false);
   const [isMonitoring, setIsMonitoring] = useState(false);
   const [logs, setLogs] = useState([]);
@@ -13,24 +13,55 @@ export default function RealtimeMonitor({ isOpen, onClose }) {
   const wsRef = useRef(null);
   const logsEndRef = useRef(null);
 
-  // Auto-scroll to bottom when new logs arrive
-  const scrollToBottom = () => {
-    logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  const buildWebSocketUrl = () => {
+    const explicitWsUrl = String(import.meta.env.VITE_WS_URL || "").trim();
+    if (explicitWsUrl) return explicitWsUrl;
+
+    const configuredPort = String(import.meta.env.VITE_WS_PORT || "").trim();
+    const isSecure = window.location.protocol === "https:";
+    const wsProtocol = isSecure ? "wss" : "ws";
+
+    if (configuredPort) {
+      return `${wsProtocol}://${window.location.hostname}:${configuredPort}`;
+    }
+
+    const explicitApi = String(import.meta.env.VITE_API_URL || "").trim();
+    if (explicitApi) {
+      try {
+        const apiUrl = new URL(explicitApi);
+        return `${apiUrl.protocol === "https:" ? "wss" : "ws"}://${apiUrl.hostname}:${apiUrl.port || (apiUrl.protocol === "https:" ? "443" : "80")}`;
+      } catch {
+        // ignore and fallback
+      }
+    }
+
+    if (import.meta.env.DEV) {
+      return `${wsProtocol}://${window.location.hostname}:5001`;
+    }
+
+    return `${wsProtocol}://${window.location.host}`;
   };
 
-  useEffect(scrollToBottom, [logs]);
+  useEffect(() => {
+    logsEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [logs]);
+
+  useEffect(() => {
+    return () => {
+      if (wsRef.current) {
+        wsRef.current.close();
+        wsRef.current = null;
+      }
+    };
+  }, []);
 
   const connectWebSocket = () => {
     if (wsRef.current) return;
 
     try {
-      const wsUrl = `ws://localhost:${process.env.VITE_WS_PORT || 5001}`;
-      console.log(`🔗 Connecting to WebSocket: ${wsUrl}`);
-      
-      const ws = new WebSocket(wsUrl);
+      const ws = new WebSocket(buildWebSocketUrl());
 
       ws.onopen = () => {
-        console.log("✅ WebSocket connected");
         setIsConnected(true);
       };
 
@@ -38,40 +69,35 @@ export default function RealtimeMonitor({ isOpen, onClose }) {
         try {
           const data = JSON.parse(event.data);
 
-          switch (data.type) {
-            case "logEvent":
-              setLogs((prev) => [data.data, ...prev].slice(0, 1000)); // Keep last 1000
-              break;
-            case "realtimeStarted":
-              console.log(`🔴 Real-time search started: ${data.jobSid}`);
-              setIsMonitoring(true);
-              break;
-            case "searchComplete":
-              console.log("✅ Real-time search completed");
-              break;
-            case "error":
-              console.error("WebSocket error:", data.message);
-              setError(data.message);
-              break;
-            case "pong":
-              console.log("📡 Pong received");
-              break;
-            default:
-              console.log("Unknown message type:", data.type);
+          if (data.type === "logEvent") {
+            setLogs((prev) => [data.data, ...prev].slice(0, 1000));
+            return;
           }
-        } catch (err) {
-          console.error("Error parsing WebSocket message:", err);
+
+          if (data.type === "realtimeStarted") {
+            setIsMonitoring(true);
+            return;
+          }
+
+          if (data.type === "realtimeStopped") {
+            setIsMonitoring(false);
+            return;
+          }
+
+          if (data.type === "error") {
+            setError(data.message || "Realtime stream error");
+          }
+        } catch {
+          // ignore parse errors
         }
       };
 
-      ws.onerror = (err) => {
-        console.error("❌ WebSocket error:", err);
+      ws.onerror = () => {
         setError("WebSocket connection failed");
         setIsConnected(false);
       };
 
       ws.onclose = () => {
-        console.log("🔌 WebSocket disconnected");
         setIsConnected(false);
         setIsMonitoring(false);
         wsRef.current = null;
@@ -79,8 +105,7 @@ export default function RealtimeMonitor({ isOpen, onClose }) {
 
       wsRef.current = ws;
     } catch (err) {
-      console.error("Failed to connect WebSocket:", err);
-      setError(err.message);
+      setError(err.message || "WebSocket initialization failed");
     }
   };
 
@@ -88,28 +113,30 @@ export default function RealtimeMonitor({ isOpen, onClose }) {
     try {
       setError(null);
       setLogs([]);
-
-      // Connect WebSocket first
       connectWebSocket();
 
-      // Then start real-time search via REST API
-      const response = await axios.post(`${API_BASE}/realtime-start`, {
+      await axios.post(`${API_BASE}/realtime-start`, {
         index,
-        limit: Math.min(limit, 1000),
+        limit: Math.min(Math.max(Number(limit || 100), 1), 1000),
       });
-
-      console.log("✅ Real-time monitoring started:", response.data);
+      setIsMonitoring(true);
     } catch (err) {
-      console.error("Error starting real-time monitoring:", err);
       setError(err.response?.data?.details || err.message);
     }
   };
 
-  const stopRealtime = () => {
+  const stopRealtime = async () => {
+    try {
+      await axios.post(`${API_BASE}/realtime-stop`);
+    } catch {
+      // best effort stop
+    }
+
     if (wsRef.current) {
       wsRef.current.close();
       wsRef.current = null;
     }
+
     setIsMonitoring(false);
     setLogs([]);
   };
@@ -120,107 +147,113 @@ export default function RealtimeMonitor({ isOpen, onClose }) {
     }
   };
 
-  if (!isOpen) return null;
+  if (!embedded && !isOpen) return null;
 
-  return (
-    <div className="realtime-monitor-overlay" onClick={onClose}>
-      <div className="realtime-monitor" onClick={(e) => e.stopPropagation()}>
-        <div className="realtime-header">
-          <h2>🔴 Real-Time Log Monitor</h2>
+  const monitorCard = (
+    <div className="realtime-monitor" onClick={(e) => e.stopPropagation()}>
+      <div className="realtime-header">
+        <h2>Real-Time Log Monitor</h2>
+        {!embedded && (
           <button className="close-btn" onClick={onClose}>
-            ✕
+            Close
+          </button>
+        )}
+      </div>
+
+      <div className="realtime-controls">
+        <div className="control-group">
+          <label>Splunk Index:</label>
+          <input
+            type="text"
+            value={index}
+            onChange={(e) => setIndex(e.target.value)}
+            placeholder="_internal"
+            disabled={isMonitoring}
+          />
+        </div>
+
+        <div className="control-group">
+          <label>Limit:</label>
+          <input
+            type="number"
+            value={limit}
+            onChange={(e) => setLimit(Number(e.target.value))}
+            min="1"
+            max="1000"
+            disabled={isMonitoring}
+          />
+        </div>
+
+        <div className="control-group">
+          {!isMonitoring ? (
+            <button className="btn btn-primary" onClick={startRealtime}>
+              Start Monitoring
+            </button>
+          ) : (
+            <button className="btn btn-danger" onClick={stopRealtime}>
+              Stop Monitoring
+            </button>
+          )}
+        </div>
+
+        <div className="control-group">
+          <button className="btn btn-secondary" onClick={sendPing}>
+            Ping
           </button>
         </div>
 
-        <div className="realtime-controls">
-          <div className="control-group">
-            <label>Splunk Index:</label>
-            <input
-              type="text"
-              value={index}
-              onChange={(e) => setIndex(e.target.value)}
-              placeholder="_internal"
-              disabled={isMonitoring}
-            />
-          </div>
-
-          <div className="control-group">
-            <label>Limit:</label>
-            <input
-              type="number"
-              value={limit}
-              onChange={(e) => setLimit(Number(e.target.value))}
-              min="1"
-              max="1000"
-              disabled={isMonitoring}
-            />
-          </div>
-
-          <div className="control-group">
-            {!isMonitoring ? (
-              <button className="btn btn-primary" onClick={startRealtime}>
-                🚀 Start Monitoring
-              </button>
-            ) : (
-              <button className="btn btn-danger" onClick={stopRealtime}>
-                ⛔ Stop Monitoring
-              </button>
-            )}
-          </div>
-
-          <div className="control-group">
-            <button className="btn btn-secondary" onClick={sendPing}>
-              📡 Ping
-            </button>
-          </div>
-
-          <div className="status-indicator">
-            <span className={`indicator ${isConnected ? "connected" : ""}`}>
-              {isConnected ? "🟢" : "🔴"} {isConnected ? "Connected" : "Disconnected"}
-            </span>
-            {isMonitoring && <span className="monitoring-badge">📊 Monitoring</span>}
-          </div>
-        </div>
-
-        {error && (
-          <div className="error-box">
-            <strong>Error:</strong> {error}
-          </div>
-        )}
-
-        <div className="realtime-logs">
-          <div className="logs-header">
-            <h3>Live Logs ({logs.length})</h3>
-            <div className="logs-meta">
-              {logs.length > 0 && (
-                <small>Latest: {new Date(logs[0].time).toLocaleTimeString()}</small>
-              )}
-            </div>
-          </div>
-
-          <div className="logs-container">
-            {logs.length === 0 ? (
-              <div className="empty-logs">
-                {isMonitoring ? "Waiting for logs..." : "No logs yet"}
-              </div>
-            ) : (
-              logs.map((log, idx) => (
-                <div key={idx} className="log-item">
-                  <div className="log-meta">
-                    <span className="log-time">
-                      {new Date(log.time).toLocaleTimeString()}
-                    </span>
-                    <span className="log-host">{log.host}</span>
-                    <span className="log-source">{log.source}</span>
-                  </div>
-                  <div className="log-content">{log.log}</div>
-                </div>
-              ))
-            )}
-            <div ref={logsEndRef} />
-          </div>
+        <div className="status-indicator">
+          <span className={`indicator ${isConnected ? "connected" : ""}`}>
+            {isConnected ? "Connected" : "Disconnected"}
+          </span>
+          {isMonitoring && <span className="monitoring-badge">Monitoring</span>}
         </div>
       </div>
+
+      {error && (
+        <div className="error-box">
+          <strong>Error:</strong> {error}
+        </div>
+      )}
+
+      <div className="realtime-logs">
+        <div className="logs-header">
+          <h3>Live Logs ({logs.length})</h3>
+          <div className="logs-meta">
+            {logs.length > 0 && (
+              <small>Latest: {new Date(logs[0].time).toLocaleTimeString()}</small>
+            )}
+          </div>
+        </div>
+
+        <div className="realtime-stream-container">
+          {logs.length === 0 ? (
+            <div className="empty-logs">
+              {isMonitoring ? "Waiting for logs..." : "No logs yet"}
+            </div>
+          ) : (
+            logs.map((log, idx) => (
+              <div key={idx} className="log-item">
+                <div className="log-meta">
+                  <span className="log-time">{new Date(log.time).toLocaleTimeString()}</span>
+                  <span className="log-host">{log.host}</span>
+                  <span className="log-source">{log.source}</span>
+                </div>
+                <div className="log-content">{log.log}</div>
+              </div>
+            ))
+          )}
+          <div ref={logsEndRef} />
+        </div>
+      </div>
+    </div>
+  );
+
+  if (embedded) return <div className="realtime-embedded">{monitorCard}</div>;
+
+  return (
+    <div className="realtime-monitor-overlay" onClick={onClose}>
+      {monitorCard}
     </div>
   );
 }

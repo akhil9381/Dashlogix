@@ -12,4 +12,8 @@ const logSchema = new mongoose.Schema({
   },
 });
 
+logSchema.index({ createdAt: -1 });
+logSchema.index({ source: 1, createdAt: -1 });
+logSchema.index({ host: 1, createdAt: -1 });
+
 export default mongoose.model("Log", logSchema);

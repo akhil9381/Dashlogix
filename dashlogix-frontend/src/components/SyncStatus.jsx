@@ -50,7 +50,7 @@ export default function SyncStatus({ onSynced, loading }) {
     <div className="sync-status">
       <h3>Log collection</h3>
       <p className="sync-status-intro">
-        DashLogix pulls events from Splunk for you on a schedule. You do not
+        dashlogix pulls events from Splunk for you on a schedule. You do not
         need to know SPL or Splunk search syntax.
       </p>
 

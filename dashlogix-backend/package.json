@@ -14,10 +14,13 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.13.6",
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.2",
     "mongoose": "^9.3.1",
+    "nodemailer": "^7.0.5",
     "splunk-sdk": "^2.0.2",
     "ws": "^8.14.2"
   }

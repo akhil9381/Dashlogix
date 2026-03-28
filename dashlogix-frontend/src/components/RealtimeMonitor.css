@@ -1,319 +1,221 @@
 .realtime-monitor-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7);
+  inset: 0;
+  background: rgba(3, 8, 18, 0.78);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
 }
 
-.realtime-monitor {
-  background: white;
-  border-radius: 12px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
-  width: 90%;
-  max-width: 1200px;
-  height: 90vh;
-  display: flex;
-  flex-direction: column;
-  animation: slideIn 0.3s ease-out;
+.realtime-embedded .realtime-monitor {
+  width: 100%;
+  max-width: none;
+  height: auto;
+  min-height: 72vh;
 }
 
-@keyframes slideIn {
-  from {
-    transform: translateY(-50px);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
+.realtime-monitor {
+  background: #0b1220;
+  border: 1px solid #1a3656;
+  border-radius: 14px;
+  width: min(1200px, 95vw);
+  height: min(90vh, 860px);
+  color: #dbeafe;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.55);
 }
 
 .realtime-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
-  border-radius: 12px 12px 0 0;
+  justify-content: space-between;
+  padding: 14px 16px;
+  background: linear-gradient(90deg, #0f172a 0%, #12304f 50%, #0f172a 100%);
+  border-bottom: 1px solid #1f3a5c;
 }
 
 .realtime-header h2 {
   margin: 0;
-  font-size: 24px;
+  font-size: 1.35rem;
 }
 
 .close-btn {
-  background: rgba(255, 255, 255, 0.2);
-  border: none;
-  color: white;
-  font-size: 24px;
+  border: 1px solid #2f557c;
+  background: #12253e;
+  color: #dbeafe;
+  border-radius: 6px;
+  padding: 8px 12px;
   cursor: pointer;
-  padding: 5px 10px;
-  border-radius: 5px;
-  transition: all 0.2s;
-}
-
-.close-btn:hover {
-  background: rgba(255, 255, 255, 0.4);
+  font-size: 0.95rem;
 }
 
 .realtime-controls {
   display: flex;
-  gap: 15px;
-  padding: 15px 20px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e0e0e0;
-  align-items: center;
+  gap: 12px;
   flex-wrap: wrap;
+  align-items: center;
+  padding: 12px 14px;
+  border-bottom: 1px solid #1a3656;
+  background: #0f1a2b;
 }
 
 .control-group {
+  display: flex;
+  gap: 7px;
+  align-items: center;
+}
+
+.control-group label {
+  font-size: 0.95rem;
+  color: #9ec8f5;
+}
+
+.control-group input {
+  background: #0b1220;
+  color: #dbeafe;
+  border: 1px solid #29486d;
+  border-radius: 6px;
+  padding: 9px 10px;
+  font-size: 0.95rem;
+}
+
+.btn {
+  border: 1px solid transparent;
+  padding: 9px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #dbeafe;
+  font-size: 0.95rem;
+}
+
+.btn-primary { background: #0f8a66; }
+.btn-danger { background: #b82643; }
+.btn-secondary { background: #2a405f; }
+
+.status-indicator {
+  margin-left: auto;
   display: flex;
   gap: 8px;
   align-items: center;
 }
 
-.control-group label {
-  font-weight: 500;
-  font-size: 14px;
-  white-space: nowrap;
-}
-
-.control-group input {
-  padding: 8px 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  font-size: 14px;
-}
-
-.control-group input:disabled {
-  background: #f0f0f0;
-  cursor: not-allowed;
-}
-
-.btn {
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  font-weight: 500;
-  transition: all 0.2s;
-}
-
-.btn-primary {
-  background: #667eea;
-  color: white;
-}
-
-.btn-primary:hover:not(:disabled) {
-  background: #5568d3;
-  transform: translateY(-2px);
-}
-
-.btn-danger {
-  background: #ff6b6b;
-  color: white;
-}
-
-.btn-danger:hover {
-  background: #ee5a52;
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background: #95a5a6;
-  color: white;
-}
-
-.btn-secondary:hover {
-  background: #7f8c8d;
-}
-
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.status-indicator {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  margin-left: auto;
-}
-
 .indicator {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 14px;
-  font-weight: 500;
+  font-size: 0.95rem;
+  border: 1px solid #365777;
+  padding: 4px 8px;
+  border-radius: 999px;
+  color: #93c5fd;
 }
 
 .indicator.connected {
-  color: #27ae60;
+  color: #34d399;
+  border-color: #257d66;
 }
 
 .monitoring-badge {
-  background: #ff6b6b;
-  color: white;
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: 600;
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.7;
-  }
+  background: #143f35;
+  border: 1px solid #2c8c75;
+  color: #34d399;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.9rem;
 }
 
 .error-box {
-  background: #fee;
-  color: #c00;
-  padding: 15px 20px;
-  border-left: 4px solid #c00;
-  font-size: 14px;
-  border-radius: 0 5px 5px 0;
+  margin: 8px 12px;
+  border: 1px solid #7f1d1d;
+  background: #2b1016;
+  color: #fecaca;
+  border-radius: 8px;
+  padding: 8px 10px;
+  font-size: 0.95rem;
 }
 
 .realtime-logs {
   display: flex;
   flex-direction: column;
+  min-height: 0;
   flex: 1;
-  overflow: hidden;
 }
 
 .logs-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  padding: 15px 20px;
-  background: #f8f9fa;
-  border-bottom: 1px solid #e0e0e0;
+  justify-content: space-between;
+  padding: 10px 14px;
+  border-bottom: 1px solid #1a3656;
+  background: #0f1a2b;
 }
 
 .logs-header h3 {
   margin: 0;
-  font-size: 16px;
+  font-size: 1.1rem;
 }
 
 .logs-meta {
-  color: #666;
-  font-size: 12px;
+  font-size: 0.9rem;
+  color: #8db3dc;
 }
 
-.logs-container {
-  flex: 1;
+.realtime-stream-container {
+  padding: 10px;
   overflow-y: auto;
-  padding: 15px 20px;
-  background: white;
+  flex: 1;
+  background: radial-gradient(circle at top right, rgba(34, 197, 94, 0.05), transparent 55%), #0b1220;
 }
 
 .empty-logs {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  height: 100%;
-  color: #999;
-  font-size: 16px;
+  color: #8db3dc;
+  font-size: 1rem;
+  padding: 22px;
 }
 
 .log-item {
-  background: #f8f9fa;
-  border: 1px solid #e0e0e0;
-  border-radius: 5px;
-  padding: 12px;
-  margin-bottom: 10px;
-  font-family: "Monaco", "Courier New", monospace;
-  font-size: 12px;
-  transition: all 0.2s;
-}
-
-.log-item:hover {
-  background: #fff;
-  border-color: #667eea;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  border: 1px solid #214363;
+  border-radius: 8px;
+  background: #0f1a2b;
+  padding: 9px;
+  margin-bottom: 8px;
 }
 
 .log-meta {
   display: flex;
-  gap: 15px;
-  margin-bottom: 8px;
-  font-size: 11px;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 6px;
 }
 
-.log-time {
-  color: #667eea;
-  font-weight: 600;
-  min-width: 100px;
-}
-
-.log-host {
-  background: #e3f2fd;
-  color: #1565c0;
-  padding: 2px 8px;
-  border-radius: 3px;
-}
-
+.log-time,
+.log-host,
 .log-source {
-  background: #f3e5f5;
-  color: #6a1b9a;
+  font-size: 0.84rem;
+  border-radius: 999px;
   padding: 2px 8px;
-  border-radius: 3px;
 }
+
+.log-time { background: #0f2942; color: #93c5fd; }
+.log-host { background: #143f35; color: #34d399; }
+.log-source { background: #3a2d12; color: #fde68a; }
 
 .log-content {
-  color: #333;
-  word-break: break-word;
+  font-size: 0.95rem;
+  color: #dbeafe;
   white-space: pre-wrap;
-  line-height: 1.4;
-  max-height: 150px;
-  overflow-y: auto;
-}
-
-/* Scrollbar styling */
-.logs-container::-webkit-scrollbar,
-.log-content::-webkit-scrollbar {
-  width: 8px;
-}
-
-.logs-container::-webkit-scrollbar-track,
-.log-content::-webkit-scrollbar-track {
-  background: #f1f1f1;
-}
-
-.logs-container::-webkit-scrollbar-thumb,
-.log-content::-webkit-scrollbar-thumb {
-  background: #888;
-  border-radius: 4px;
-}
-
-.logs-container::-webkit-scrollbar-thumb:hover,
-.log-content::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  line-height: 1.35;
 }
 
 @media (max-width: 768px) {
   .realtime-monitor {
-    width: 95%;
-    height: 95vh;
+    width: 98vw;
+    height: 96vh;
   }
 
-  .realtime-controls {
-    flex-direction: column;
+  .status-indicator {
+    margin-left: 0;
+    width: 100%;
   }
 
   .control-group {
@@ -323,11 +225,5 @@
   .control-group input,
   .btn {
     width: 100%;
-  }
-
-  .status-indicator {
-    margin-left: 0;
-    width: 100%;
-    justify-content: space-between;
   }
 }
