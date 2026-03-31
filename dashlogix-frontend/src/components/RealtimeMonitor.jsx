@@ -240,6 +240,8 @@ export default function RealtimeMonitor({ isOpen = true, onClose, embedded = fal
                   <span className="log-source">{log.source}</span>
                 </div>
                 <div className="log-content">{log.log}</div>
+                {log.exactCause && <div className="log-exact-cause">Cause: {log.exactCause}</div>}
+                {log.description && <div className="log-friendly-description">{log.description}</div>}
               </div>
             ))
           )}
