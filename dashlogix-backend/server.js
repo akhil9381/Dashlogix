@@ -20,6 +20,8 @@ import {
   parseSimpleQuery,
   buildTimeRangeFilter,
   classifyLogLevel,
+  extractExactCause,
+  describeLogForUsers,
   resolveSearchOptions,
 } from "./utils/queryTranslator.js";
 
@@ -191,11 +193,18 @@ function withMongoGuard(handler) {
 function normalizeLog(result) {
   if (!result || typeof result !== "object") return null;
 
+  const message =
+    result._raw || result.log || result.message || result.description || JSON.stringify(result);
+  const level = result.level || classifyLogLevel(message);
+
   return {
     time: result._time || result.time || new Date().toISOString(),
     host: result.host || "splunk",
     source: result.source || result.sourcetype || "unknown",
-    log: result._raw || result.log || result.message || JSON.stringify(result),
+    log: message,
+    level,
+    exactCause: result.exactCause || extractExactCause(message, level),
+    description: result.description || describeLogForUsers(message, level),
   };
 }
 
@@ -252,13 +261,31 @@ function buildLocalHeartbeatLog() {
     host: "dashlogix",
     source: "local",
     log: "DashLogix collector heartbeat",
+    level: "info",
+    exactCause: "No error. This is a normal heartbeat log.",
+    description: "DashLogix is running normally and recording its routine collector heartbeat.",
+  };
+}
+
+function enrichStoredLog(log) {
+  const message = String(log?.log || "");
+  const level = log?.level || classifyLogLevel(message);
+
+  return {
+    ...log,
+    level,
+    exactCause: log?.exactCause || extractExactCause(message, level),
+    description: log?.description || describeLogForUsers(message, level),
   };
 }
 
 async function ingestLogs(logs, queryLabel = "auto-fetch") {
   if (!Array.isArray(logs) || logs.length === 0) return 0;
 
-  const docs = logs.map((log) => ({ ...log, query: queryLabel }));
+  const docs = logs.map((log) => {
+    const enriched = normalizeLog(log) || log;
+    return { ...enriched, query: queryLabel };
+  });
   await Log.insertMany(docs, { ordered: false });
   invalidateStatsCache();
   return docs.length;
@@ -403,10 +430,7 @@ async function searchStoredLogs(parsed, limit, earliestOverride = null) {
 
   const logs = await Log.find(filter).sort({ createdAt: -1 }).limit(limit).lean();
 
-  return logs.map((item) => ({
-    ...item,
-    level: classifyLogLevel(item.log || ""),
-  }));
+  return logs.map(enrichStoredLog);
 }
 
 function getMailer() {
@@ -980,7 +1004,7 @@ routeBoth(
   withMongoGuard(async (req, res) => {
     const limit = Math.min(Math.max(Number(req.query.limit || 200), 1), 1000);
     const logs = await Log.find().sort({ createdAt: -1 }).limit(limit).lean();
-    res.json(logs);
+    res.json(logs.map(enrichStoredLog));
   })
 );
 
@@ -990,7 +1014,7 @@ routeBoth(
   withMongoGuard(async (req, res) => {
     const limit = Math.min(Math.max(Number(req.query.limit || 200), 1), 1000);
     const logs = await Log.find().sort({ createdAt: -1 }).limit(limit).lean();
-    res.json(logs);
+    res.json(logs.map(enrichStoredLog));
   })
 );
 

@@ -5,6 +5,9 @@ const logSchema = new mongoose.Schema({
   host: String,
   source: String,
   log: String,
+  level: String,
+  exactCause: String,
+  description: String,
   query: String,
   createdAt: {
     type: Date,
