@@ -34,6 +34,7 @@ export default function AppShell() {
       <header className="topbar">
         <div className="brand-wrap">
           <Link to="/" className="brand-title">dashlogix</Link>
+          <span className="brand-sub">Security observability for modern operations</span>
         </div>
 
         <nav className="topnav">
@@ -51,6 +52,7 @@ export default function AppShell() {
         <div className="session-zone">
           {isAuthenticated ? (
             <>
+              <span className="brand-pill">Live workspace</span>
               <NavLink to="/profile" className="session-link">{user?.name || "Profile"}</NavLink>
               <button type="button" className="session-btn" onClick={logout}>
                 Logout

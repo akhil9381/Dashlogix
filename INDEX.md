@@ -472,6 +472,7 @@ Everything is complete:
 - [`dashlogix-frontend/src/App.css`](/dashlogix-frontend/src/App.css) - All styling
 - [`QUICK_START.md`](/QUICK_START.md) - Get started fast
 - [`README.md`](/README.md) - Full documentation
+- [`TESTING.md`](/TESTING.md) - Testing guide and manual test cases
 - [`SETUP.md`](/SETUP.md) - Installation guide
 - [`ARCHITECTURE.md`](/ARCHITECTURE.md) - System design
 

@@ -231,6 +231,7 @@ export function parseSimpleQuery(rawQuery = "") {
     .replace(/host:[^\s]+/gi, "")
     .replace(/source:[^\s]+/gi, "")
     .replace(/level:(error|warn|warning|info)/gi, "")
+    .replace(/\b(errors?|warnings?|infos?)\b/gi, "")
     .replace(/last\s+\d+\s*(m|min|mins|minute|minutes|h|hr|hour|hours|d|day|days)/gi, "")
     .replace(/earliest:[^\s]+/gi, "")
     .trim();

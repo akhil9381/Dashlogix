@@ -327,6 +327,10 @@ index=security authentication=failed
 
 ## 🧪 Testing
 
+DashLogix includes documented manual testing for backend APIs, authentication, search, alerts, dashboard analytics, and realtime monitoring.
+
+For the complete testing guide, test cases, and recommended future automation coverage, see [TESTING.md](TESTING.md).
+
 ### Test Endpoints
 
 ```bash

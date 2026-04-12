@@ -1,0 +1,205 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1500" height="2200" viewBox="0 0 1500 2200">
+  <defs>
+    <style>
+      .title { font: 700 28px 'Segoe UI', Arial, sans-serif; fill: #102a43; }
+      .label { font: 600 16px 'Segoe UI', Arial, sans-serif; fill: #102a43; }
+      .text { font: 14px 'Segoe UI', Arial, sans-serif; fill: #243b53; }
+      .small { font: 13px 'Segoe UI', Arial, sans-serif; fill: #243b53; }
+      .box { fill: #f8fbff; stroke: #486581; stroke-width: 2; rx: 14; ry: 14; }
+      .decision { fill: #fff7e6; stroke: #b7791f; stroke-width: 2; }
+      .startend { fill: #d9f99d; stroke: #4d7c0f; stroke-width: 2; }
+      .lane { fill: #eef6ff; stroke: #bcccdc; stroke-width: 1.5; }
+      .laneTitle { font: 700 18px 'Segoe UI', Arial, sans-serif; fill: #1f3a56; }
+      .arrow { stroke: #334e68; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .note { fill: #e6fffa; stroke: #2c7a7b; stroke-width: 1.5; rx: 12; ry: 12; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+      <polygon points="0 0, 10 4, 0 8" fill="#334e68"/>
+    </marker>
+  </defs>
+
+  <rect x="20" y="20" width="1460" height="2160" fill="#ffffff"/>
+  <text x="750" y="60" text-anchor="middle" class="title">DashLogix Activity Diagram</text>
+
+  <rect x="40" y="90" width="300" height="2040" class="lane"/>
+  <rect x="360" y="90" width="360" height="2040" class="lane"/>
+  <rect x="740" y="90" width="360" height="2040" class="lane"/>
+  <rect x="1120" y="90" width="340" height="2040" class="lane"/>
+
+  <text x="190" y="125" text-anchor="middle" class="laneTitle">User</text>
+  <text x="540" y="125" text-anchor="middle" class="laneTitle">Frontend</text>
+  <text x="920" y="125" text-anchor="middle" class="laneTitle">Backend</text>
+  <text x="1290" y="125" text-anchor="middle" class="laneTitle">Data Sources</text>
+
+  <ellipse cx="190" cy="180" rx="85" ry="34" class="startend"/>
+  <text x="190" y="186" text-anchor="middle" class="label">Start</text>
+
+  <rect x="90" y="250" width="200" height="64" class="box"/>
+  <text x="190" y="278" text-anchor="middle" class="label">Open DashLogix</text>
+  <text x="190" y="298" text-anchor="middle" class="small">Navigate to web app</text>
+
+  <rect x="430" y="250" width="220" height="64" class="box"/>
+  <text x="540" y="278" text-anchor="middle" class="label">Load App</text>
+  <text x="540" y="298" text-anchor="middle" class="small">AuthProvider + Router + AppShell</text>
+
+  <polygon points="540,360 620,420 540,480 460,420" class="decision"/>
+  <text x="540" y="418" text-anchor="middle" class="label">Authenticated?</text>
+
+  <rect x="80" y="560" width="220" height="78" class="box"/>
+  <text x="190" y="590" text-anchor="middle" class="label">Login or Register</text>
+  <text x="190" y="612" text-anchor="middle" class="small">Enter credentials and submit</text>
+
+  <rect x="820" y="560" width="200" height="78" class="box"/>
+  <text x="920" y="590" text-anchor="middle" class="label">Validate Auth</text>
+  <text x="920" y="612" text-anchor="middle" class="small">Create JWT / fetch user</text>
+
+  <rect x="430" y="700" width="220" height="78" class="box"/>
+  <text x="540" y="730" text-anchor="middle" class="label">Show Protected UI</text>
+  <text x="540" y="752" text-anchor="middle" class="small">Dashboard, Search, Alerts, Realtime</text>
+
+  <polygon points="190,860 300,930 190,1000 80,930" class="decision"/>
+  <text x="190" y="918" text-anchor="middle" class="label">Choose</text>
+  <text x="190" y="940" text-anchor="middle" class="label">Feature</text>
+
+  <rect x="70" y="1080" width="240" height="74" class="box"/>
+  <text x="190" y="1110" text-anchor="middle" class="label">Dashboard Flow</text>
+  <text x="190" y="1132" text-anchor="middle" class="small">View metrics and recent logs</text>
+
+  <rect x="430" y="1080" width="220" height="74" class="box"/>
+  <text x="540" y="1110" text-anchor="middle" class="label">Fetch Dashboard Data</text>
+  <text x="540" y="1132" text-anchor="middle" class="small">sync-status, logs, stats, charts</text>
+
+  <rect x="820" y="1080" width="200" height="74" class="box"/>
+  <text x="920" y="1110" text-anchor="middle" class="label">Aggregate Results</text>
+  <text x="920" y="1132" text-anchor="middle" class="small">Mongo queries + cached stats</text>
+
+  <rect x="70" y="1220" width="240" height="74" class="box"/>
+  <text x="190" y="1250" text-anchor="middle" class="label">Search Flow</text>
+  <text x="190" y="1272" text-anchor="middle" class="small">Enter plain-language query</text>
+
+  <rect x="430" y="1220" width="220" height="74" class="box"/>
+  <text x="540" y="1250" text-anchor="middle" class="label">Send GET /search</text>
+  <text x="540" y="1272" text-anchor="middle" class="small">Query, limit, live flag</text>
+
+  <polygon points="920,1210 1000,1260 920,1310 840,1260" class="decision"/>
+  <text x="920" y="1258" text-anchor="middle" class="label">Live mode?</text>
+
+  <rect x="1180" y="1190" width="220" height="74" class="box"/>
+  <text x="1290" y="1220" text-anchor="middle" class="label">Query Splunk</text>
+  <text x="1290" y="1242" text-anchor="middle" class="small">Fetch live search export</text>
+
+  <rect x="820" y="1350" width="200" height="74" class="box"/>
+  <text x="920" y="1380" text-anchor="middle" class="label">Search Mongo Logs</text>
+  <text x="920" y="1402" text-anchor="middle" class="small">Or ingest live results first</text>
+
+  <rect x="430" y="1350" width="220" height="74" class="box"/>
+  <text x="540" y="1380" text-anchor="middle" class="label">Render Search Results</text>
+  <text x="540" y="1402" text-anchor="middle" class="small">Show SPL and LogsTable</text>
+
+  <rect x="70" y="1490" width="240" height="74" class="box"/>
+  <text x="190" y="1520" text-anchor="middle" class="label">Alerts Flow</text>
+  <text x="190" y="1542" text-anchor="middle" class="small">Create, toggle, delete, run-now</text>
+
+  <rect x="430" y="1490" width="220" height="74" class="box"/>
+  <text x="540" y="1520" text-anchor="middle" class="label">Call Alerts APIs</text>
+  <text x="540" y="1542" text-anchor="middle" class="small">rules, events, run-now</text>
+
+  <rect x="820" y="1490" width="200" height="74" class="box"/>
+  <text x="920" y="1520" text-anchor="middle" class="label">Evaluate Rule</text>
+  <text x="920" y="1542" text-anchor="middle" class="small">Check thresholds and cooldown</text>
+
+  <polygon points="1290,1480 1370,1530 1290,1580 1210,1530" class="decision"/>
+  <text x="1290" y="1528" text-anchor="middle" class="label">Threshold hit?</text>
+
+  <rect x="1180" y="1630" width="220" height="86" class="box"/>
+  <text x="1290" y="1660" text-anchor="middle" class="label">Store Alert Event</text>
+  <text x="1290" y="1682" text-anchor="middle" class="small">Optionally send email</text>
+  <text x="1290" y="1702" text-anchor="middle" class="small">via SMTP</text>
+
+  <rect x="70" y="1760" width="240" height="74" class="box"/>
+  <text x="190" y="1790" text-anchor="middle" class="label">Realtime Flow</text>
+  <text x="190" y="1812" text-anchor="middle" class="small">Start monitor and watch stream</text>
+
+  <rect x="430" y="1760" width="220" height="74" class="box"/>
+  <text x="540" y="1790" text-anchor="middle" class="label">Open WebSocket</text>
+  <text x="540" y="1812" text-anchor="middle" class="small">POST /realtime-start</text>
+
+  <rect x="820" y="1760" width="200" height="74" class="box"/>
+  <text x="920" y="1790" text-anchor="middle" class="label">Poll and Broadcast</text>
+  <text x="920" y="1812" text-anchor="middle" class="small">Push log events to clients</text>
+
+  <rect x="1180" y="1760" width="220" height="74" class="box"/>
+  <text x="1290" y="1790" text-anchor="middle" class="label">Splunk + Mongo</text>
+  <text x="1290" y="1812" text-anchor="middle" class="small">Fetch new logs and persist</text>
+
+  <rect x="70" y="1940" width="240" height="74" class="box"/>
+  <text x="190" y="1970" text-anchor="middle" class="label">History / Profile</text>
+  <text x="190" y="1992" text-anchor="middle" class="small">Review activity or update profile</text>
+
+  <rect x="430" y="1940" width="220" height="74" class="box"/>
+  <text x="540" y="1970" text-anchor="middle" class="label">Show Records or Save</text>
+  <text x="540" y="1992" text-anchor="middle" class="small">history APIs / PATCH profile</text>
+
+  <ellipse cx="190" cy="2085" rx="85" ry="34" class="startend"/>
+  <text x="190" y="2091" text-anchor="middle" class="label">End</text>
+
+  <rect x="770" y="1910" width="300" height="104" class="note"/>
+  <text x="920" y="1940" text-anchor="middle" class="label">Background Scheduler</text>
+  <text x="920" y="1964" text-anchor="middle" class="small">runCollection() periodically ingests logs</text>
+  <text x="920" y="1986" text-anchor="middle" class="small">runAlertSweep() periodically evaluates rules</text>
+
+  <path d="M190 214 L190 250" class="arrow"/>
+  <path d="M290 282 L430 282" class="arrow"/>
+  <path d="M540 314 L540 360" class="arrow"/>
+  <path d="M460 420 L190 420 L190 560" class="arrow"/>
+  <path d="M620 420 L920 420 L920 560" class="arrow"/>
+  <path d="M190 638 L190 670 L540 670 L540 700" class="arrow"/>
+  <path d="M920 638 L920 670 L540 670 L540 700" class="arrow"/>
+  <path d="M540 778 L540 830 L190 830 L190 860" class="arrow"/>
+
+  <path d="M190 1000 L190 1080" class="arrow"/>
+  <path d="M190 1000 L190 1220" class="arrow"/>
+  <path d="M190 1000 L190 1490" class="arrow"/>
+  <path d="M190 1000 L190 1760" class="arrow"/>
+  <path d="M190 1000 L190 1940" class="arrow"/>
+
+  <path d="M310 1117 L430 1117" class="arrow"/>
+  <path d="M650 1117 L820 1117" class="arrow"/>
+  <path d="M1020 1117 L540 1117 L540 1160" class="arrow"/>
+
+  <path d="M310 1257 L430 1257" class="arrow"/>
+  <path d="M650 1257 L840 1257" class="arrow"/>
+  <path d="M1000 1260 L1180 1260" class="arrow"/>
+  <path d="M920 1310 L920 1350" class="arrow"/>
+  <path d="M1290 1264 L1290 1387 L1020 1387" class="arrow"/>
+  <path d="M820 1387 L650 1387" class="arrow"/>
+
+  <path d="M310 1527 L430 1527" class="arrow"/>
+  <path d="M650 1527 L820 1527" class="arrow"/>
+  <path d="M1020 1527 L1210 1527" class="arrow"/>
+  <path d="M1290 1580 L1290 1630" class="arrow"/>
+  <path d="M1210 1530 L920 1530 L920 1610" class="arrow"/>
+
+  <path d="M310 1797 L430 1797" class="arrow"/>
+  <path d="M650 1797 L820 1797" class="arrow"/>
+  <path d="M1020 1797 L1180 1797" class="arrow"/>
+  <path d="M1290 1834 L1290 1865 L540 1865 L540 1834" class="arrow"/>
+
+  <path d="M310 1977 L430 1977" class="arrow"/>
+  <path d="M540 2014 L540 2050 L190 2050" class="arrow"/>
+  <path d="M190 2014 L190 2051" class="arrow"/>
+  <path d="M190 2014 L190 2051" class="arrow"/>
+  <path d="M190 2014 L190 2051" class="arrow"/>
+
+  <text x="330" y="404" class="small">No</text>
+  <text x="760" y="404" class="small">Yes</text>
+  <text x="1040" y="1248" class="small">Yes</text>
+  <text x="930" y="1334" class="small">No</text>
+  <text x="1385" y="1522" class="small">Yes</text>
+  <text x="1110" y="1600" class="small">No</text>
+  <text x="220" y="1060" class="small">dashboard</text>
+  <text x="225" y="1205" class="small">search</text>
+  <text x="225" y="1475" class="small">alerts</text>
+  <text x="220" y="1745" class="small">realtime</text>
+  <text x="210" y="1925" class="small">history/profile</text>
+</svg>

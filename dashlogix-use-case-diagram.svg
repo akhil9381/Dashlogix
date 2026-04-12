@@ -1,0 +1,141 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980">
+  <defs>
+    <style>
+      .page { fill: #ffffff; }
+      .boundary { fill: #fcfcfc; stroke: #222; stroke-width: 3; }
+      .usecase { fill: #ffffff; stroke: #222; stroke-width: 2.2; }
+      .assoc { stroke: #222; stroke-width: 2.1; fill: none; }
+      .include { stroke: #555; stroke-width: 2; fill: none; stroke-dasharray: 8 6; marker-end: url(#arrow); }
+      .actor { stroke: #222; stroke-width: 2.4; fill: none; stroke-linecap: round; }
+      .title { font: 700 30px "Times New Roman", serif; fill: #111; }
+      .sys { font: 700 22px Arial, sans-serif; fill: #111; }
+      .text { font: 400 19px Arial, sans-serif; fill: #111; }
+      .small { font: 400 16px Arial, sans-serif; fill: #333; }
+      .caption { font: 400 18px "Times New Roman", serif; fill: #111; }
+    </style>
+    <marker id="arrow" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <polygon points="0,0 10,4 0,8" fill="#555"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="980" class="page"/>
+  <text x="800" y="55" text-anchor="middle" class="title">Use Case Diagram for DashLogix</text>
+
+  <rect x="290" y="95" width="1020" height="760" rx="14" ry="14" class="boundary"/>
+  <text x="800" y="128" text-anchor="middle" class="sys">DashLogix System</text>
+
+  <!-- Actors -->
+  <g transform="translate(125,490)">
+    <circle cx="0" cy="0" r="18" class="actor"/>
+    <line x1="0" y1="18" x2="0" y2="78" class="actor"/>
+    <line x1="-28" y1="42" x2="28" y2="42" class="actor"/>
+    <line x1="0" y1="78" x2="-24" y2="114" class="actor"/>
+    <line x1="0" y1="78" x2="24" y2="114" class="actor"/>
+    <text x="0" y="145" text-anchor="middle" class="text">User</text>
+  </g>
+
+  <g transform="translate(1460,320)">
+    <circle cx="0" cy="0" r="18" class="actor"/>
+    <line x1="0" y1="18" x2="0" y2="78" class="actor"/>
+    <line x1="-28" y1="42" x2="28" y2="42" class="actor"/>
+    <line x1="0" y1="78" x2="-24" y2="114" class="actor"/>
+    <line x1="0" y1="78" x2="24" y2="114" class="actor"/>
+    <text x="0" y="145" text-anchor="middle" class="text">Splunk</text>
+    <text x="0" y="168" text-anchor="middle" class="text">Service</text>
+  </g>
+
+  <g transform="translate(1460,665)">
+    <circle cx="0" cy="0" r="18" class="actor"/>
+    <line x1="0" y1="18" x2="0" y2="78" class="actor"/>
+    <line x1="-28" y1="42" x2="28" y2="42" class="actor"/>
+    <line x1="0" y1="78" x2="-24" y2="114" class="actor"/>
+    <line x1="0" y1="78" x2="24" y2="114" class="actor"/>
+    <text x="0" y="145" text-anchor="middle" class="text">Email</text>
+    <text x="0" y="168" text-anchor="middle" class="text">Channel</text>
+  </g>
+
+  <!-- Left column -->
+  <ellipse cx="520" cy="200" rx="130" ry="34" class="usecase"/>
+  <text x="520" y="207" text-anchor="middle" class="text">Create Account</text>
+
+  <ellipse cx="520" cy="300" rx="130" ry="34" class="usecase"/>
+  <text x="520" y="307" text-anchor="middle" class="text">Authenticate User</text>
+
+  <ellipse cx="520" cy="400" rx="130" ry="34" class="usecase"/>
+  <text x="520" y="407" text-anchor="middle" class="text">Manage Profile</text>
+
+  <ellipse cx="520" cy="520" rx="145" ry="34" class="usecase"/>
+  <text x="520" y="516" text-anchor="middle" class="text">Search Logs</text>
+  <text x="520" y="537" text-anchor="middle" class="small">Simple query or translated SPL</text>
+
+  <ellipse cx="520" cy="650" rx="155" ry="34" class="usecase"/>
+  <text x="520" y="646" text-anchor="middle" class="text">View Dashboard Analytics</text>
+  <text x="520" y="667" text-anchor="middle" class="small">Stats, charts and time series</text>
+
+  <ellipse cx="520" cy="770" rx="145" ry="34" class="usecase"/>
+  <text x="520" y="766" text-anchor="middle" class="text">Monitor Realtime Logs</text>
+  <text x="520" y="787" text-anchor="middle" class="small">WebSocket live stream</text>
+
+  <!-- Right column -->
+  <ellipse cx="1030" cy="200" rx="150" ry="34" class="usecase"/>
+  <text x="1030" y="196" text-anchor="middle" class="text">View Search and Activity History</text>
+  <text x="1030" y="217" text-anchor="middle" class="small">Recent queries and user actions</text>
+
+  <ellipse cx="1030" cy="320" rx="130" ry="34" class="usecase"/>
+  <text x="1030" y="327" text-anchor="middle" class="text">Create Alert Rule</text>
+
+  <ellipse cx="1030" cy="420" rx="130" ry="34" class="usecase"/>
+  <text x="1030" y="427" text-anchor="middle" class="text">Update Alert Rule</text>
+
+  <ellipse cx="1030" cy="520" rx="130" ry="34" class="usecase"/>
+  <text x="1030" y="527" text-anchor="middle" class="text">Delete Alert Rule</text>
+
+  <ellipse cx="1030" cy="620" rx="130" ry="34" class="usecase"/>
+  <text x="1030" y="627" text-anchor="middle" class="text">Run Alert Now</text>
+
+  <ellipse cx="1030" cy="740" rx="135" ry="34" class="usecase"/>
+  <text x="1030" y="736" text-anchor="middle" class="text">Fetch Logs from Splunk</text>
+  <text x="1030" y="757" text-anchor="middle" class="small">Search API and live polling</text>
+
+  <ellipse cx="1030" cy="820" rx="125" ry="30" class="usecase"/>
+  <text x="1030" y="827" text-anchor="middle" class="text">Send Alert Email</text>
+
+  <!-- User associations -->
+  <line x1="155" y1="450" x2="395" y2="200" class="assoc"/>
+  <line x1="155" y1="465" x2="395" y2="300" class="assoc"/>
+  <line x1="155" y1="485" x2="395" y2="400" class="assoc"/>
+  <line x1="155" y1="505" x2="375" y2="520" class="assoc"/>
+  <line x1="155" y1="530" x2="365" y2="650" class="assoc"/>
+  <line x1="155" y1="550" x2="375" y2="770" class="assoc"/>
+  <line x1="155" y1="570" x2="880" y2="200" class="assoc"/>
+  <line x1="155" y1="590" x2="900" y2="320" class="assoc"/>
+  <line x1="155" y1="610" x2="900" y2="420" class="assoc"/>
+  <line x1="155" y1="630" x2="900" y2="520" class="assoc"/>
+  <line x1="155" y1="650" x2="900" y2="620" class="assoc"/>
+
+  <!-- External associations -->
+  <line x1="1165" y1="740" x2="1430" y2="320" class="assoc"/>
+  <line x1="1155" y1="820" x2="1430" y2="665" class="assoc"/>
+
+  <!-- Include relationships -->
+  <path d="M520 234 V266" class="include"/>
+  <text x="536" y="255" class="small">&lt;&lt;include&gt;&gt;</text>
+
+  <path d="M665 520 C790 520, 860 630, 945 717" class="include"/>
+  <text x="760" y="548" class="small">&lt;&lt;include&gt;&gt;</text>
+
+  <path d="M520 770 C640 770, 760 760, 895 744" class="include"/>
+  <text x="705" y="748" class="small">&lt;&lt;include&gt;&gt;</text>
+
+  <path d="M1030 354 V386" class="include"/>
+  <text x="1046" y="375" class="small">&lt;&lt;include&gt;&gt;</text>
+
+  <path d="M1030 454 V486" class="include"/>
+  <text x="1046" y="475" class="small">&lt;&lt;include&gt;&gt;</text>
+
+  <path d="M1030 654 V790" class="include"/>
+  <text x="1046" y="724" class="small">&lt;&lt;include&gt;&gt;</text>
+
+  <text x="800" y="910" text-anchor="middle" class="caption">Fig. 4.2: Use Case Diagram for DashLogix</text>
+  <text x="800" y="938" text-anchor="middle" class="caption">User interactions with authentication, search, analytics, alerts, history, Splunk integration, and realtime monitoring</text>
+</svg>

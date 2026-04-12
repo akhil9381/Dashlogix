@@ -1,0 +1,190 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="980" viewBox="0 0 1600 980">
+  <defs>
+    <style>
+      .title { font: 700 30px "Times New Roman", serif; fill: #111; }
+      .subtitle { font: 700 22px "Times New Roman", serif; fill: #111; }
+      .caption { font: 400 18px "Times New Roman", serif; fill: #111; }
+      .tier-label { font: 700 22px Arial, sans-serif; fill: #222; }
+      .box-title { font: 700 21px Arial, sans-serif; fill: #222; }
+      .box-text { font: 400 17px Arial, sans-serif; fill: #333; }
+      .flow-text { font: 400 15px Arial, sans-serif; fill: #555; }
+      .tier { fill: #d6d6d6; stroke: #555; stroke-width: 2.2; }
+      .card { fill: #ffffff; stroke: #444; stroke-width: 2; }
+      .small { fill: #fafafa; stroke: #444; stroke-width: 1.8; }
+      .arrow { stroke: #555; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .down { stroke: #666; stroke-width: 2.5; fill: none; marker-end: url(#arrowhead); }
+      .icon { fill: none; stroke: #444; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+      .tier-bg { fill: #efefef; }
+    </style>
+    <marker id="arrowhead" markerWidth="10" markerHeight="8" refX="8" refY="4" orient="auto">
+      <polygon points="0,0 10,4 0,8" fill="#555"/>
+    </marker>
+  </defs>
+
+  <rect x="0" y="0" width="1600" height="980" fill="#ffffff"/>
+
+  <text x="800" y="70" text-anchor="middle" class="title">SYSTEM ARCHITECTURE</text>
+  <text x="800" y="112" text-anchor="middle" class="subtitle">DashLogix Log Monitoring and Visualization Platform</text>
+
+  <rect x="140" y="150" rx="8" ry="8" width="1320" height="155" class="tier"/>
+  <rect x="140" y="330" rx="8" ry="8" width="1320" height="185" class="tier"/>
+  <rect x="140" y="540" rx="8" ry="8" width="1320" height="175" class="tier"/>
+  <rect x="140" y="740" rx="8" ry="8" width="1320" height="145" class="tier"/>
+
+  <text x="165" y="184" class="tier-label">Tier 1: Access and Presentation</text>
+  <text x="165" y="364" class="tier-label">Tier 2: Backend Processing and APIs</text>
+  <text x="165" y="574" class="tier-label">Tier 3: Data, Analytics and Realtime Services</text>
+  <text x="165" y="774" class="tier-label">Tier 4: External Integrations and Output Channels</text>
+
+  <rect x="380" y="182" rx="10" ry="10" width="180" height="92" class="card"/>
+  <rect x="610" y="182" rx="10" ry="10" width="210" height="92" class="card"/>
+  <rect x="870" y="182" rx="10" ry="10" width="220" height="92" class="card"/>
+  <rect x="1140" y="182" rx="10" ry="10" width="210" height="92" class="card"/>
+
+  <circle cx="425" cy="215" r="15" class="icon"/>
+  <path d="M413 244 C416 228, 434 228, 437 244" class="icon"/>
+  <text x="470" y="213" class="box-title">End User</text>
+  <text x="470" y="239" class="box-text">Analyst or Admin</text>
+
+  <rect x="645" y="198" width="34" height="24" rx="4" class="icon"/>
+  <path d="M651 198 v-10 a11 11 0 0 1 22 0 v10" class="icon"/>
+  <text x="695" y="213" class="box-title">Login and Registration</text>
+  <text x="695" y="239" class="box-text">JWT auth and profile access</text>
+
+  <rect x="905" y="196" width="54" height="34" rx="4" class="icon"/>
+  <line x1="918" y1="242" x2="946" y2="242" class="icon"/>
+  <line x1="956" y1="242" x2="984" y2="242" class="icon"/>
+  <text x="978" y="213" class="box-title">React Dashboard</text>
+  <text x="978" y="239" class="box-text">Search, alerts, charts, history</text>
+
+  <rect x="1172" y="196" width="42" height="30" rx="4" class="icon"/>
+  <line x1="1180" y1="206" x2="1206" y2="206" class="icon"/>
+  <line x1="1180" y1="214" x2="1206" y2="214" class="icon"/>
+  <line x1="1180" y1="222" x2="1200" y2="222" class="icon"/>
+  <text x="1238" y="213" class="box-title">Protected Routes</text>
+  <text x="1238" y="239" class="box-text">Session restore and gating</text>
+
+  <path d="M560 228 H610" class="arrow"/>
+  <text x="585" y="220" text-anchor="middle" class="flow-text">Access</text>
+  <path d="M820 228 H870" class="arrow"/>
+  <text x="845" y="220" text-anchor="middle" class="flow-text">Load UI</text>
+  <path d="M1090 228 H1140" class="arrow"/>
+  <text x="1115" y="220" text-anchor="middle" class="flow-text">Control</text>
+
+  <rect x="250" y="385" rx="10" ry="10" width="180" height="96" class="card"/>
+  <rect x="470" y="385" rx="10" ry="10" width="230" height="96" class="card"/>
+  <rect x="740" y="385" rx="10" ry="10" width="220" height="96" class="card"/>
+  <rect x="1000" y="385" rx="10" ry="10" width="190" height="96" class="card"/>
+  <rect x="1230" y="385" rx="10" ry="10" width="170" height="96" class="card"/>
+
+  <rect x="284" y="406" width="30" height="18" rx="3" class="icon"/>
+  <path d="M277 406 h44" class="icon"/>
+  <path d="M277 432 h44" class="icon"/>
+  <text x="340" y="416" class="box-title">Express API</text>
+  <text x="340" y="442" class="box-text">REST endpoints</text>
+
+  <circle cx="515" cy="417" r="12" class="icon"/>
+  <path d="M529 431 l14 14" class="icon"/>
+  <text x="575" y="416" class="box-title">Search Engine</text>
+  <text x="575" y="442" class="box-text">Query parsing and log lookup</text>
+
+  <rect x="774" y="404" width="34" height="24" rx="4" class="icon"/>
+  <path d="M791 403 v-10 a10 10 0 0 1 20 0 v10" class="icon"/>
+  <text x="846" y="416" class="box-title">Authentication Layer</text>
+  <text x="846" y="442" class="box-text">JWT, auth middleware, profile</text>
+
+  <path d="M1030 406 h36 v24 h-36 z" class="icon"/>
+  <path d="M1024 430 h48" class="icon"/>
+  <text x="1095" y="416" class="box-title">Alert Manager</text>
+  <text x="1095" y="442" class="box-text">Rules, events, run-now</text>
+
+  <path d="M1270 406 h40 v28 h-40 z" class="icon"/>
+  <path d="M1290 434 v18" class="icon"/>
+  <text x="1318" y="416" class="box-title">Realtime API</text>
+  <text x="1318" y="442" class="box-text">WebSocket and streaming</text>
+
+  <path d="M430 433 H470" class="arrow"/>
+  <text x="450" y="425" text-anchor="middle" class="flow-text">REST</text>
+  <path d="M700 433 H740" class="arrow"/>
+  <text x="720" y="425" text-anchor="middle" class="flow-text">Verify</text>
+  <path d="M960 433 H1000" class="arrow"/>
+  <text x="980" y="425" text-anchor="middle" class="flow-text">Trigger</text>
+  <path d="M1190 433 H1230" class="arrow"/>
+  <text x="1210" y="425" text-anchor="middle" class="flow-text">Push</text>
+
+  <rect x="240" y="592" rx="10" ry="10" width="220" height="88" class="card"/>
+  <rect x="500" y="592" rx="10" ry="10" width="220" height="88" class="card"/>
+  <rect x="760" y="592" rx="10" ry="10" width="250" height="88" class="card"/>
+  <rect x="1050" y="592" rx="10" ry="10" width="300" height="88" class="card"/>
+
+  <ellipse cx="285" cy="627" rx="22" ry="12" class="icon"/>
+  <path d="M263 627 v18 c0 7 10 12 22 12 s22-5 22-12 v-18" class="icon"/>
+  <text x="350" y="623" class="box-title">MongoDB</text>
+  <text x="350" y="649" class="box-text">Logs, users, history, alerts</text>
+
+  <path d="M540 618 h56 v18 h-56 z" class="icon"/>
+  <path d="M548 644 h40" class="icon"/>
+  <text x="610" y="623" class="box-title">Stats and Charts</text>
+  <text x="610" y="649" class="box-text">Counts, sources, timeseries</text>
+
+  <path d="M792 617 h44 v22 h-44 z" class="icon"/>
+  <path d="M786 644 h56" class="icon"/>
+  <text x="886" y="623" class="box-title">Collector and Cache</text>
+  <text x="886" y="649" class="box-text">Scheduled sync, cache, deduping</text>
+
+  <circle cx="1090" cy="620" r="12" class="icon"/>
+  <circle cx="1125" cy="620" r="12" class="icon"/>
+  <circle cx="1160" cy="620" r="12" class="icon"/>
+  <path d="M1102 620 h11" class="icon"/>
+  <path d="M1137 620 h11" class="icon"/>
+  <text x="1210" y="623" class="box-title">Realtime Stream Processor</text>
+  <text x="1210" y="649" class="box-text">Polling state, broadcast, live events</text>
+
+  <path d="M460 636 H500" class="arrow"/>
+  <text x="480" y="628" text-anchor="middle" class="flow-text">Aggregate</text>
+  <path d="M720 636 H760" class="arrow"/>
+  <text x="740" y="628" text-anchor="middle" class="flow-text">Cache</text>
+  <path d="M1010 636 H1050" class="arrow"/>
+  <text x="1030" y="628" text-anchor="middle" class="flow-text">Broadcast</text>
+
+  <rect x="230" y="785" rx="10" ry="10" width="230" height="70" class="card"/>
+  <rect x="500" y="785" rx="10" ry="10" width="230" height="70" class="card"/>
+  <rect x="770" y="785" rx="10" ry="10" width="230" height="70" class="card"/>
+  <rect x="1040" y="785" rx="10" ry="10" width="320" height="70" class="card"/>
+
+  <path d="M270 808 h40 v24 h-40 z" class="icon"/>
+  <path d="M290 808 v-12" class="icon"/>
+  <text x="345" y="815" class="box-title">Splunk Enterprise</text>
+  <text x="345" y="838" class="box-text">Log source and search API</text>
+
+  <path d="M540 810 h44 v22 h-44 z" class="icon"/>
+  <path d="M592 814 c14 0 14 20 0 20" class="icon"/>
+  <text x="620" y="815" class="box-title">Email Notifications</text>
+  <text x="620" y="838" class="box-text">Nodemailer delivery channel</text>
+
+  <rect x="805" y="808" width="46" height="24" rx="4" class="icon"/>
+  <line x1="812" y1="820" x2="844" y2="820" class="icon"/>
+  <text x="885" y="815" class="box-title">WebSocket Clients</text>
+  <text x="885" y="838" class="box-text">Live dashboard listeners</text>
+
+  <circle cx="1085" cy="820" r="12" class="icon"/>
+  <path d="M1100 820 h20" class="icon"/>
+  <path d="M1140 820 h20" class="icon"/>
+  <text x="1220" y="815" class="box-title">Reports and User Decisions</text>
+  <text x="1220" y="838" class="box-text">Monitoring, analysis, action, remediation</text>
+
+  <path d="M470 274 V330" class="down"/>
+  <path d="M955 274 V330" class="down"/>
+  <path d="M1245 274 V330" class="down"/>
+
+  <path d="M340 481 V540" class="down"/>
+  <path d="M850 481 V540" class="down"/>
+  <path d="M1290 481 V540" class="down"/>
+
+  <path d="M350 680 V740" class="down"/>
+  <path d="M605 680 V740" class="down"/>
+  <path d="M1180 680 V740" class="down"/>
+
+  <text x="800" y="930" text-anchor="middle" class="caption">Fig. 4.1: DashLogix System Architecture</text>
+  <text x="800" y="955" text-anchor="middle" class="caption">React frontend, Express backend, MongoDB persistence, Splunk integration, alerts, analytics, and realtime monitoring</text>
+</svg>
